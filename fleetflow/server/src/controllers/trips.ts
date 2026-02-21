@@ -30,6 +30,9 @@ export const createTrip = async (req: Request, res: Response) => {
         if (new Date() > driver.licenseExpiryDate) {
             return res.status(400).json({ error: 'Driver license is expired' })
         }
+        if (driver.status === 'SUSPENDED') {
+            return res.status(400).json({ error: 'Driver is suspended and cannot be dispatched' })
+        }
         if (vehicle.status !== VehicleStatus.AVAILABLE) {
             return res.status(400).json({ error: 'Vehicle is not available for dispatch' })
         }
@@ -54,7 +57,7 @@ export const createTrip = async (req: Request, res: Response) => {
 
 export const dispatchTrip = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params
+        const id = req.params.id as string
 
         const trip = await prisma.trip.findUnique({ where: { id } })
         if (!trip) return res.status(404).json({ error: 'Trip not found' })
@@ -86,7 +89,7 @@ export const dispatchTrip = async (req: Request, res: Response) => {
 
 export const completeTrip = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params
+        const id = req.params.id as string
         const { endOdometer } = req.body
 
         if (!endOdometer || typeof endOdometer !== 'number') {
@@ -98,8 +101,8 @@ export const completeTrip = async (req: Request, res: Response) => {
         if (trip.status !== TripStatus.DISPATCHED) {
             return res.status(400).json({ error: 'Only DISPATCHED trips can be completed' })
         }
-        if (endOdometer < trip.startOdometer) {
-            return res.status(400).json({ error: 'endOdometer cannot be less than startOdometer' })
+        if (endOdometer <= trip.startOdometer) {
+            return res.status(400).json({ error: 'endOdometer must be strictly greater than startOdometer' })
         }
 
         const [updatedTrip] = await prisma.$transaction([
@@ -138,7 +141,7 @@ export const getTrips = async (req: Request, res: Response) => {
 export const getTripById = async (req: Request, res: Response) => {
     try {
         const trip = await prisma.trip.findUnique({
-            where: { id: req.params.id },
+            where: { id: req.params.id as string },
             include: { vehicle: true, driver: true }
         })
         if (!trip) return res.status(404).json({ error: 'Trip not found' })

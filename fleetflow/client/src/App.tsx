@@ -9,6 +9,8 @@ import Trips from './pages/Trips'
 import Maintenance from './pages/Maintenance'
 import Fuel from './pages/Fuel'
 import Analytics from './pages/Analytics'
+import ComplianceDashboard from './pages/ComplianceDashboard'
+import FinancialDashboard from './pages/FinancialDashboard'
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
             <Route path="/maintenance" element={<Maintenance />} />
             <Route path="/fuel" element={<Fuel />} />
             <Route path="/analytics" element={<Analytics />} />
+            <Route path="/compliance" element={<ComplianceDashboard />} />
+            <Route path="/financials" element={<FinancialDashboard />} />
           </Route>
         </Route>
       </Routes>

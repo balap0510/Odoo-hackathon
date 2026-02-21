@@ -32,6 +32,22 @@ async function main() {
 
     await prisma.user.create({
         data: {
+            email: 'safety@fleetflow.com',
+            password: passwordHash,
+            role: Role.SAFETY_OFFICER
+        }
+    })
+
+    await prisma.user.create({
+        data: {
+            email: 'analyst@fleetflow.com',
+            password: passwordHash,
+            role: Role.FINANCIAL_ANALYST
+        }
+    })
+
+    const dispatcher = await prisma.user.create({
+        data: {
             email: 'dispatcher@fleetflow.com',
             password: passwordHash,
             role: Role.DISPATCHER
@@ -77,12 +93,23 @@ async function main() {
 
     const driver2 = await prisma.driver.create({
         data: {
-            name: 'Jane Smith',
-            licenseNumber: 'DL-67890',
-            licenseExpiryDate: new Date('2027-11-15'),
-            licenseCategory: 'B',
-            safetyScore: 98,
-            status: DriverStatus.ON_DUTY
+            name: 'Sarah Connor',
+            licenseNumber: 'LNN-89012',
+            licenseExpiryDate: new Date('2024-01-15T00:00:00Z'), // Explicitly expired for testing
+            licenseCategory: 'C',
+            status: DriverStatus.OFF_DUTY
+        }
+    })
+
+    const driver3 = await prisma.driver.create({
+        data: {
+            name: 'John Matrix',
+            licenseNumber: 'LNN-55555',
+            licenseExpiryDate: new Date('2027-04-15T00:00:00Z'),
+            licenseCategory: 'CE',
+            status: DriverStatus.SUSPENDED,
+            complianceStatus: 'NON_COMPLIANT',
+            suspensionReason: 'Speeding violation out of state'
         }
     })
 
