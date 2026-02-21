@@ -13,14 +13,16 @@ import {
 import { cn } from '../../lib/utils'
 import { Button } from '@/components/ui/button'
 
-const navItems = [
-    { title: 'Command Center', href: '/', icon: LayoutDashboard },
-    { title: 'Vehicles', href: '/vehicles', icon: Truck },
-    { title: 'Drivers', href: '/drivers', icon: Users },
-    { title: 'Trip Dispatcher', href: '/trips', icon: MapPin },
-    { title: 'Maintenance', href: '/maintenance', icon: Wrench },
-    { title: 'Fuel & Expenses', href: '/fuel', icon: Fuel },
-    { title: 'Analytics', href: '/analytics', icon: BarChart },
+const allNavItems = [
+    { title: 'Command Center', href: '/', icon: LayoutDashboard, roles: ['FLEET_MANAGER', 'DISPATCHER'] },
+    { title: 'Compliance Dashboard', href: '/compliance', icon: LayoutDashboard, roles: ['FLEET_MANAGER', 'SAFETY_OFFICER'] },
+    { title: 'Financial Dashboard', href: '/financials', icon: LayoutDashboard, roles: ['FLEET_MANAGER', 'FINANCIAL_ANALYST'] },
+    { title: 'Vehicles', href: '/vehicles', icon: Truck, roles: ['FLEET_MANAGER', 'DISPATCHER'] },
+    { title: 'Drivers', href: '/drivers', icon: Users, roles: ['FLEET_MANAGER', 'DISPATCHER', 'SAFETY_OFFICER'] },
+    { title: 'Trip Dispatcher', href: '/trips', icon: MapPin, roles: ['FLEET_MANAGER', 'DISPATCHER'] },
+    { title: 'Maintenance', href: '/maintenance', icon: Wrench, roles: ['FLEET_MANAGER', 'FINANCIAL_ANALYST'] },
+    { title: 'Fuel & Expenses', href: '/fuel', icon: Fuel, roles: ['FLEET_MANAGER', 'FINANCIAL_ANALYST'] },
+    { title: 'Analytics', href: '/analytics', icon: BarChart, roles: ['FLEET_MANAGER', 'FINANCIAL_ANALYST'] },
 ]
 
 export default function Layout() {
@@ -43,7 +45,7 @@ export default function Layout() {
                 </div>
 
                 <div className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
-                    {navItems.map((item) => {
+                    {allNavItems.filter(item => user && item.roles.includes(user.role)).map((item) => {
                         const isActive = location.pathname === item.href || (location.pathname.startsWith(item.href) && item.href !== '/')
                         return (
                             <Link
@@ -77,7 +79,7 @@ export default function Layout() {
             <main className="flex-1 flex flex-col overflow-hidden relative">
                 <header className="h-16 flex items-center justify-between px-6 bg-white border-b border-slate-200 z-10">
                     <h1 className="text-xl font-semibold text-slate-800">
-                        {navItems.find(item => item.href === location.pathname)?.title || 'Fleet Dashboard'}
+                        {allNavItems.find(item => item.href === location.pathname)?.title || 'Fleet Dashboard'}
                     </h1>
                     <div className="flex items-center gap-4">
                         <span className="flex h-2 w-2 rounded-full bg-green-500"></span>

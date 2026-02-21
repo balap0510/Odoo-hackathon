@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -85,10 +85,16 @@ export default function Login() {
                             {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
                         </div>
                     </CardContent>
-                    <CardFooter>
+                    <CardFooter className="flex flex-col space-y-4">
                         <Button type="submit" className="w-full" disabled={loading}>
                             {loading ? 'Signing in...' : 'Sign in'}
                         </Button>
+                        <div className="text-sm text-center text-slate-600">
+                            Don't have an account?{' '}
+                            <Link to="/register" className="text-primary hover:underline font-medium">
+                                Sign up
+                            </Link>
+                        </div>
                     </CardFooter>
                 </form>
             </Card>
