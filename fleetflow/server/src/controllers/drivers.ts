@@ -28,7 +28,7 @@ export const getDrivers = async (req: Request, res: Response) => {
 export const getDriverById = async (req: Request, res: Response) => {
     try {
         const driver = await prisma.driver.findUnique({
-            where: { id: req.params.id },
+            where: { id: req.params.id as string },
             include: {
                 trips: {
                     take: 5,
@@ -57,7 +57,7 @@ export const createDriver = async (req: Request, res: Response) => {
         })
         res.status(201).json(driver)
     } catch (error) {
-        if (error instanceof z.ZodError) return res.status(400).json({ error: 'Validation Error', details: error.errors })
+        if (error instanceof z.ZodError) return res.status(400).json({ error: 'Validation Error', details: error.issues })
         res.status(500).json({ error: 'Internal server error' })
     }
 }
@@ -71,7 +71,7 @@ export const updateDriver = async (req: Request, res: Response) => {
         }
 
         const driver = await prisma.driver.update({
-            where: { id: req.params.id },
+            where: { id: req.params.id as string },
             data: updateData
         })
         res.json(driver)
@@ -83,7 +83,7 @@ export const updateDriver = async (req: Request, res: Response) => {
 
 export const deleteDriver = async (req: Request, res: Response) => {
     try {
-        await prisma.driver.delete({ where: { id: req.params.id } })
+        await prisma.driver.delete({ where: { id: req.params.id as string } })
         res.status(204).send()
     } catch (error) {
         res.status(500).json({ error: 'Failed to delete driver' })

@@ -51,11 +51,11 @@ export const createMaintenanceLog = async (req: Request, res: Response) => {
 
 export const deleteMaintenanceLog = async (req: Request, res: Response) => {
     try {
-        const log = await prisma.maintenanceLog.findUnique({ where: { id: req.params.id } })
+        const log = await prisma.maintenanceLog.findUnique({ where: { id: req.params.id as string } })
         if (!log) return res.status(404).json({ error: 'Log not found' })
 
         await prisma.$transaction([
-            prisma.maintenanceLog.delete({ where: { id: req.params.id } }),
+            prisma.maintenanceLog.delete({ where: { id: req.params.id as string } }),
             prisma.vehicle.update({
                 where: { id: log.vehicleId },
                 data: { status: VehicleStatus.AVAILABLE } // Auto Logic: Removing -> status = AVAILABLE

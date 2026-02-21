@@ -56,7 +56,7 @@ export const dispatchTrip = async (req: Request, res: Response) => {
     try {
         const { id } = req.params
 
-        const trip = await prisma.trip.findUnique({ where: { id } })
+        const trip = await prisma.trip.findUnique({ where: { id: id as string } })
         if (!trip) return res.status(404).json({ error: 'Trip not found' })
         if (trip.status !== TripStatus.DRAFT) {
             return res.status(400).json({ error: 'Only DRAFT trips can be dispatched' })
@@ -65,7 +65,7 @@ export const dispatchTrip = async (req: Request, res: Response) => {
         // Wrap in transaction
         const [updatedTrip] = await prisma.$transaction([
             prisma.trip.update({
-                where: { id },
+                where: { id: id as string },
                 data: { status: TripStatus.DISPATCHED, dispatchedAt: new Date() }
             }),
             prisma.vehicle.update({
@@ -93,7 +93,7 @@ export const completeTrip = async (req: Request, res: Response) => {
             return res.status(400).json({ error: 'Valid endOdometer is required' })
         }
 
-        const trip = await prisma.trip.findUnique({ where: { id } })
+        const trip = await prisma.trip.findUnique({ where: { id: id as string } })
         if (!trip) return res.status(404).json({ error: 'Trip not found' })
         if (trip.status !== TripStatus.DISPATCHED) {
             return res.status(400).json({ error: 'Only DISPATCHED trips can be completed' })
@@ -104,7 +104,7 @@ export const completeTrip = async (req: Request, res: Response) => {
 
         const [updatedTrip] = await prisma.$transaction([
             prisma.trip.update({
-                where: { id },
+                where: { id: id as string },
                 data: { status: TripStatus.COMPLETED, completedAt: new Date(), endOdometer }
             }),
             prisma.vehicle.update({
@@ -138,7 +138,7 @@ export const getTrips = async (req: Request, res: Response) => {
 export const getTripById = async (req: Request, res: Response) => {
     try {
         const trip = await prisma.trip.findUnique({
-            where: { id: req.params.id },
+            where: { id: req.params.id as string },
             include: { vehicle: true, driver: true }
         })
         if (!trip) return res.status(404).json({ error: 'Trip not found' })

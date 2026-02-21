@@ -1,0 +1,118 @@
+﻿
+> client@0.0.0 build
+> tsc -b && vite build
+
+[36mvite v7.3.1 [32mbuilding client environment for production...[36m[39m
+transforming...
+[32mΓ£ô[39m 2036 modules transformed.
+node.exe : 
+[31mΓ£ù[39m Build 
+failed in 2.32s
+At line:1 char:1
++ & "C:\Program 
+Files\nodejs/node.exe" 
+"C:\Program 
+Files\nodejs/node_mo 
+...
++ ~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+~~
+    + CategoryInfo     
+         : NotSpecifi  
+  ed: ([31mΓ£ù[39m   
+  Build failed in 2    
+.32s:String) [], R    
+emoteException
+    + FullyQualifiedEr 
+   rorId : NativeComm  
+  andError
+ 
+[31merror during 
+build:
+[31m[vite]: Rollup 
+failed to resolve 
+import "react-is" from 
+"C:/Users/Sidharth/Desk
+top/ODOO/Odoo-hackathon
+/fleetflow/client/node_
+modules/recharts/es6/ut
+il/ReactUtils.js".
+This is most likely 
+unintended because it 
+can break your 
+application at runtime.
+If you do want to 
+externalize this 
+module explicitly add 
+it to
+`build.rollupOptions.ex
+ternal`[31m
+    at viteLog (file://
+/C:/Users/Sidharth/Desk
+top/ODOO/Odoo-hackathon
+/fleetflow/client/node_
+modules/vite/dist/node/
+chunks/config.js:33635:
+57)
+    at file:///C:/Users
+/Sidharth/Desktop/ODOO/
+Odoo-hackathon/fleetflo
+w/client/node_modules/v
+ite/dist/node/chunks/co
+nfig.js:33669:73
+    at onwarn (file:///
+C:/Users/Sidharth/Deskt
+op/ODOO/Odoo-hackathon/
+fleetflow/client/node_m
+odules/@vitejs/plugin-r
+eact/dist/index.js:76:7
+)
+    at file:///C:/Users
+/Sidharth/Desktop/ODOO/
+Odoo-hackathon/fleetflo
+w/client/node_modules/v
+ite/dist/node/chunks/co
+nfig.js:33669:28
+    at onRollupLog (fil
+e:///C:/Users/Sidharth/
+Desktop/ODOO/Odoo-hacka
+thon/fleetflow/client/n
+ode_modules/vite/dist/n
+ode/chunks/config.js:33
+664:63)
+    at onLog (file:///C
+:/Users/Sidharth/Deskto
+p/ODOO/Odoo-hackathon/f
+leetflow/client/node_mo
+dules/vite/dist/node/ch
+unks/config.js:33467:4)
+    at file:///C:/Users
+/Sidharth/Desktop/ODOO/
+Odoo-hackathon/fleetflo
+w/client/node_modules/r
+ollup/dist/es/shared/no
+de-entry.js:20958:32
+    at Object.logger 
+[as onLog] (file:///C:/
+Users/Sidharth/Desktop/
+ODOO/Odoo-hackathon/fle
+etflow/client/node_modu
+les/rollup/dist/es/shar
+ed/node-entry.js:22945:
+9)
+    at ModuleLoader.han
+dleInvalidResolvedId (f
+ile:///C:/Users/Sidhart
+h/Desktop/ODOO/Odoo-hac
+kathon/fleetflow/client
+/node_modules/rollup/di
+st/es/shared/node-entry
+.js:21689:26)
+    at file:///C:/Users
+/Sidharth/Desktop/ODOO/
+Odoo-hackathon/fleetflo
+w/client/node_modules/r
+ollup/dist/es/shared/no
+de-entry.js:21647:26[3
+9m
