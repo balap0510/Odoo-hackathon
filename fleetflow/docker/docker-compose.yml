@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: fleetflow_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: fleetflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  server:
+    build:
+      context: ../server
+    container_name: fleetflow_server
+    ports:
+      - "5001:5000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db:5432/fleetflow
+      - JWT_SECRET=supersecretjwtkey
+      - JWT_REFRESH_SECRET=supersecretrefreshkey
+      - PORT=5000
+    depends_on:
+      - db
+    command: sh -c "npx prisma migrate deploy && npm start"
+
+  client:
+    build:
+      context: ../client
+    container_name: fleetflow_client
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+
+volumes:
+  postgres_data:
